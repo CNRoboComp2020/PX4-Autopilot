@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="ID" default="0"/>
+    <group ns="typhoon_h480_$(arg ID)">
+        <!-- MAVROS and vehicle configs -->
+        <arg name="fcu_url" default="$(eval 'udp://:' + str(24540 + arg('ID')) + '@localhost:' + str(34580 + arg('ID')))"/>
+        <!-- PX4 SITL and vehicle spawn -->
+        <include file="$(find px4)/launch/single_vehicle_spawn_xtd.launch">
+            <arg name="x" value="$(eval (arg('ID') % 2) * 3)"/>
+            <arg name="y" value="$(eval (arg('ID') // 2) * 3 + 3)"/>
+            <arg name="z" value="0"/>
+            <arg name="R" value="0"/>
+            <arg name="P" value="0"/>
+            <arg name="Y" value="0"/>
+            <arg name="vehicle" value="typhoon_h480"/>
+            <arg name="sdf" value="typhoon_h480"/>
+            <arg name="mavlink_udp_port" value="$(eval 18570 + arg('ID'))"/>
+            <arg name="mavlink_tcp_port" value="$(eval 4560 + arg('ID'))"/>
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="ID_in_group" value="$(arg ID)"/>
+        </include>
+        <!-- MAVROS -->
+        <include file="$(find mavros)/launch/px4.launch">
+            <arg name="fcu_url" value="$(arg fcu_url)"/>
+            <arg name="gcs_url" value=""/>
+            <arg name="tgt_system" value="$(eval 1 + arg('ID'))"/>
+            <arg name="tgt_component" value="1"/>
+        </include>
+    </group>
+</launch>
