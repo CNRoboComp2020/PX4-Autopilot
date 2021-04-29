@@ -13,7 +13,7 @@
             <arg name="P" value="0"/>
             <arg name="Y" value="0"/>
             <arg name="vehicle" value="typhoon_h480"/>
-            <arg name="sdf" value="typhoon_h480"/>
+            <arg name="sdf" value="typhoon_h480_depth_camera"/>
             <arg name="mavlink_udp_port" value="$(eval 18570 + arg('ID'))"/>
             <arg name="mavlink_tcp_port" value="$(eval 4560 + arg('ID'))"/>
             <arg name="ID" value="$(arg ID)"/>
